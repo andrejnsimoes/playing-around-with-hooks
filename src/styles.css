@@ -1,0 +1,88 @@
+html,
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.newsList {
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+  background-color: white;
+  width: 80%;
+}
+
+ul {
+  list-style-position: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  border-bottom: 1px solid #ddd;
+  line-height: 40px;
+  text-overflow: ellipsis;
+
+  /* Required for text-overflow to do anything */
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 0 10px;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+li:hover {
+  opacity: 0.8;
+  color: #000;
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+input {
+  margin: 1rem;
+  width: 90%;
+  font-size: 17px;
+  padding: 4px;
+}
+
+.light {
+  background-color: white;
+}
+
+.light a {
+  color: black;
+}
+
+.dark {
+  background-color: #1e1f23;
+}
+
+.dark a {
+  color: black;
+}
+
+.toggleThemeButton {
+  width: 50%;
+}
+
+.selectedArticleURL {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19);
+  font-size: 16px;
+  padding: 0.75rem;
+  margin: 20px;
+  background-color: white;
+}
