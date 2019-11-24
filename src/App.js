@@ -1,81 +1,44 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 
 import ThemeContext from "./ThemeContext";
 import NewsList from "./NewsList";
 import SelectedArticleURL from "./SelectedArticleURL";
 
-export class App extends React.Component {
-  constructor() {
-    super();
+export const App = () => {
+  const [query, setQuery] = useState("react hooks");
+  const [news, setNews] = useState([]);
+  const [url, setUrl] = useState(undefined);
 
-    this.state = {
-      query: "react hooks",
-      news: [],
-      url: undefined
-    };
+  const { theme, toggleDarkMode, toggleLightMode } = useContext(ThemeContext);
 
-    this.fetchData = this.fetchData.bind(this);
-    this.setQuery = this.setQuery.bind(this);
-    this.handleSelectedArticle = this.handleSelectedArticle.bind(this);
-  }
-
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    //console.log(prevState.query);
-    if (prevState.query !== this.state.query) {
-      this.fetchData();
+  useEffect(() => {
+    async function fetchData() {
+      const url = `https://hn.algolia.com/api/v1/search?query=${query}`;
+      const result = await axios(url);
+      setNews(result.data.hits.slice(0, 5));
     }
-  }
 
-  async fetchData() {
-    const url = `https://hn.algolia.com/api/v1/search?query=${this.state.query}`;
-    const result = await axios(url);
-    this.setState({ news: result.data.hits.slice(0, 5) });
-  }
+    fetchData();
+  }, [query]);
 
-  setQuery(query) {
-    this.setState({ query, url: "" });
-  }
+  const handleSelectedArticle = article => {
+    setUrl(article.url);
+  };
 
-  handleSelectedArticle(article) {
-    this.setState({ url: article.url });
-  }
-
-  render() {
-    return (
-      <ThemeContext.Consumer>
-        {({ theme, toggleDarkMode, toggleLightMode }) => (
-          <div className={theme}>
-            <button
-              className="toggleThemeButton"
-              onClick={() => toggleDarkMode()}
-            >
-              Dark Mode
-            </button>
-            <button
-              className="toggleThemeButton"
-              onClick={() => toggleLightMode()}
-            >
-              Light Mode
-            </button>
-            <input
-              value={this.state.query}
-              onChange={e => this.setQuery(e.target.value)}
-            />
-            <div className="container">
-              <SelectedArticleURL url={this.state.url} />
-              <NewsList
-                news={this.state.news}
-                onSelectArticle={this.handleSelectedArticle}
-              />
-            </div>
-          </div>
-        )}
-      </ThemeContext.Consumer>
-    );
-  }
-}
+  return (
+    <div className={theme}>
+      <button className="toggleThemeButton" onClick={() => toggleDarkMode()}>
+        Dark Mode
+      </button>
+      <button className="toggleThemeButton" onClick={() => toggleLightMode()}>
+        Light Mode
+      </button>
+      <input value={query} onChange={e => setQuery(e.target.value)} />
+      <div className="container">
+        <SelectedArticleURL url={url} />
+        <NewsList news={news} onSelectArticle={handleSelectedArticle} />
+      </div>
+    </div>
+  );
+};
