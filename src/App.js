@@ -8,9 +8,10 @@ import SelectedArticleURL from "./SelectedArticleURL";
 export const App = () => {
   const [query, setQuery] = useState("react hooks");
   const [news, setNews] = useState([]);
-  const [url, setUrl] = useState(undefined);
-
-  const { theme, toggleDarkMode, toggleLightMode } = useContext(ThemeContext);
+  const [url, setUrl] = useState();
+  const { theme, toggleDarkMode, toggleLightMode, logo } = useContext(
+    ThemeContext
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -34,8 +35,9 @@ export const App = () => {
       <button className="toggleThemeButton" onClick={() => toggleLightMode()}>
         Light Mode
       </button>
-      <input value={query} onChange={e => setQuery(e.target.value)} />
       <div className="container">
+        <img className="tdxLogo" alt="tdxLogo" src={logo} />
+        <input value={query} onChange={e => setQuery(e.target.value)} />
         <SelectedArticleURL url={url} />
         <NewsList news={news} onSelectArticle={handleSelectedArticle} />
       </div>
