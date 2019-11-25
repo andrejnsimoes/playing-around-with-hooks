@@ -48,7 +48,7 @@ export class App extends React.Component {
   render() {
     return (
       <ThemeContext.Consumer>
-        {({ theme, toggleDarkMode, toggleLightMode }) => (
+        {({ theme, toggleDarkMode, toggleLightMode, logo }) => (
           <div className={theme}>
             <button
               className="toggleThemeButton"
@@ -62,11 +62,12 @@ export class App extends React.Component {
             >
               Light Mode
             </button>
-            <input
-              value={this.state.query}
-              onChange={e => this.setQuery(e.target.value)}
-            />
             <div className="container">
+              <img className="tdxLogo" alt="tdxLogo" src={logo} />
+              <input
+                value={this.state.query}
+                onChange={e => this.setQuery(e.target.value)}
+              />
               <SelectedArticleURL url={this.state.url} />
               <NewsList
                 news={this.state.news}
